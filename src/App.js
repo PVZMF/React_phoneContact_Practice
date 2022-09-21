@@ -51,11 +51,6 @@ function App() {
     setstyledelete({ ...styledelete, display: "none" });
   }
 
-  // const update=(id) =>{
-  //   setdata(data.map(user =>(
-  //     user.id
-  //   )))
-  // }
   const searchContact = (e) => {
     setdatasearch(e.target.value);
   }
@@ -69,7 +64,7 @@ function App() {
       favorite: e.target[3].checked ? true : false,
       country: e.target[5].value
     };
-    if (e.target.value==="Add"){
+    if (e.target[6].value==="Add"){
       newuser = {id: Math.floor(Math.random() * 1000),...newuser}
       setdata([...data, newuser]);
     }
@@ -94,11 +89,7 @@ function App() {
     setupdateform({ ...updateform, [e.target.name]: e.target.value })
   }
 
-  // const changecheck = (e)=>{
-  //   e.target.checked = !(e.target.checked);
-  // }
   return (
-
     <div>
       <div style={styledelete}>
         Are you sure?
