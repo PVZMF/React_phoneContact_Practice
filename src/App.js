@@ -36,6 +36,7 @@ function App() {
   const [updateform, setupdateform] = useState(data[0])
   const [typefilter, settypefilter] = useState(false);
   const [datasearch, setdatasearch] = useState("");
+  const [mode, setmode] = useState("Add");
   const [styledelete, setstyledelete] = useState({ border: "1px solid black", borderRadius: "15px", margin: "20px", padding: "10px", display: "none" });
   const deletesure = (id) => {
     setstyledelete({ ...styledelete, display: "block" });
@@ -61,16 +62,22 @@ function App() {
 
   const handlesubmit = (e) => {
     e.preventDefault();
-    console.log(e);
     let newuser = {
-      id: Math.floor(Math.random() * 1000),
       name: e.target[0].value,
       age: e.target[1].value,
       phone: e.target[2].value,
       favorite: e.target[3].checked ? true : false,
       country: e.target[5].value
     };
-    setdata([...data, newuser]);
+    if (e.target.value==="Add"){
+      newuser = {id: Math.floor(Math.random() * 1000),...newuser}
+      setdata([...data, newuser]);
+    }
+    else{
+      setdata(data.map(user=>user.id === id?{id:user.id,...newuser}:user));
+      data.filter(user=>user.id === id?console.log(newuser):user);
+      setmode("Add");
+    }
   }
 
   const fliterContact = (e) => {
@@ -78,13 +85,13 @@ function App() {
   }
 
   const updateuser = (id) => {
-    console.log(data.filter((user) => user.id === id)[0]);
     setupdateform(...data.filter((user) => user.id === id));
+    setid(id);
+    setmode("Update");
   }
 
   const formchange = (e) => {
     setupdateform({ ...updateform, [e.target.name]: e.target.value })
-    console.log(e.target.value);
   }
 
   // const changecheck = (e)=>{
@@ -124,7 +131,7 @@ function App() {
           <label htmlFor="country">country: </label>
           <input type="text" name="country" id="country" value={updateform.country} onChange={formchange} />
         </div>
-        <input value="Add" type="submit" />
+        <input value={mode} type="submit" />
       </form>
       <div style={{ margin: "30px", marginBottom:0, display:"flex",flexDirection:"row"}}>
         <div style={{ marginRight:"20px" }}>
